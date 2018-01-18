@@ -1,13 +1,13 @@
-
+/**
+ * Implementation of a numbered Tile
+ * @author Lasse
+ *
+ */
 public class NumberTile implements SlidingTile {
 	private final int _number;
 
 	public NumberTile(int number) {
 		_number = number;
-	}
-
-	public int get_number() {
-		return _number;
 	}
 
 	@Override
@@ -18,7 +18,10 @@ public class NumberTile implements SlidingTile {
 	public boolean equals(NumberTile obj) {
 		return _number == obj.getNumber();
 	}
-	
+	/**
+	 * returns the pictured number
+	 * @return the number
+	 */
 	private int getNumber() {
 		return _number;
 	}
