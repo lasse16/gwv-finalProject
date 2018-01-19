@@ -8,8 +8,7 @@
  */
 public class StartUp {
 
-	/**
-	 * @param args
+	/**Testet die Methoden 
 	 */
 	public static void main(String[] args) {
 		OverallBox box = new OverallBox();
