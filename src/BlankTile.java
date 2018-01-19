@@ -16,4 +16,9 @@ public class BlankTile implements SlidingTile {
 	public int hashCode() {
 		return 0;
 	}
+
+	@Override
+	public int getNumber() {
+		return 0;
+	}
 }

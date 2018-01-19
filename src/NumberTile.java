@@ -22,7 +22,7 @@ public class NumberTile implements SlidingTile {
 	 * returns the pictured number
 	 * @return the number
 	 */
-	private int getNumber() {
+	public int getNumber() {
 		return _number;
 	}
 
