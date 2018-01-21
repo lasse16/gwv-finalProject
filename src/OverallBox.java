@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * the representaion of the puzzle box containing all the sliding tiles
@@ -162,18 +164,6 @@ public class OverallBox {
 		return true;
 	}
 
-	/**
-	 * FIXME randfälle betrachten
-	 * 
-	 * @param st
-	 * @return
-	 */
-	public SlidingTile[] getNeighbours(SlidingTile st) {
-		int[] position = findSlidingTilePosition(st);
-		SlidingTile[] neighbours = { _puzzleBox[position[0] + 1][position[0]], _puzzleBox[position[0]][position[0] + 1],
-				_puzzleBox[position[0]][position[0] - 1], _puzzleBox[position[0] - 1][position[0]] };
-		return neighbours;
-	}
 
 	/**
 	 * Method for swapping with the upper tile (lower zeile-value)
@@ -200,6 +190,17 @@ public class OverallBox {
 	public int[] getBlankTilePosition() {
 		int[] position = {BlankZeile,BlankSpalte};
 		return  position;
+	}
+	
+	public List<Move> getValidMoves(){
+		List<Move> moves = new ArrayList<Move>();
+		
+		if (BlankZeile > 0) moves.add(new Move(Direction.UP));
+		if (BlankZeile < _puzzleBox.length-1) moves.add(new Move(Direction.DOWN));
+		if (BlankSpalte > 0) moves.add(new Move(Direction.LEFT));
+		if (BlankSpalte < _puzzleBox[0].length-1) moves.add(new Move(Direction.RIGHT));
+		
+		return moves; 
 	}
 	
 
