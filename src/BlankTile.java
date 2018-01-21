@@ -1,4 +1,8 @@
-
+/**
+ * a representation of an empty tile
+ * @author Lasse Haffke, Mai Tam Do , Joschka Eickhoff
+ *
+ */
 public class BlankTile implements SlidingTile {
 
 	

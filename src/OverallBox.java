@@ -4,11 +4,14 @@ import java.util.List;
 /**
  * the representaion of the puzzle box containing all the sliding tiles
  * 
- * @author Lasse
+ * @author Lasse Haffke, Mai Tam Do , Joschka Eickhoff
  *
  */
 public class OverallBox {
+	// the two dimensional array containing all the sliding tiles
 	private SlidingTile[][] _puzzleBox;
+
+	// position of the blank tile
 	private int BlankZeile;
 	private int BlankSpalte;
 
@@ -139,16 +142,18 @@ public class OverallBox {
 	}
 
 	/**
+	 * checks for the number
+	 * 
 	 * @param obj
-	 * @return
+	 *            the looked for tile and number
+	 * @return true if it contains the number
 	 */
 	private boolean containsNumber(SlidingTile obj) {
 		return findSlidingTile(obj) != null;
 	}
 
 	/**
-	 * @param obj
-	 * @return
+	*@see this.containsNumber
 	 */
 	private boolean containsNumber(int obj) {
 		return findSlidingTile(obj) != null;
@@ -161,48 +166,127 @@ public class OverallBox {
 	 * @return
 	 */
 	public boolean hasSolution() {
-		return true;
-	}
+		int numberMisplacedPairs = 0;
 
+		List<SlidingTile> horizontalAlignment = new ArrayList<SlidingTile>();
+		for (SlidingTile[] st : _puzzleBox) {
+			for (SlidingTile s : st) {
+				horizontalAlignment.add(s);
+			}
+		}
+
+		// TODO hier look for unsorted pairs
+		// https://zeroturnaround.com/rebellabs/java-8-explained-applying-lambdas-to-java-collections/
+
+		return ((numberMisplacedPairs + BlankZeile) & 1) == 0;
+	}
 
 	/**
-	 * Method for swapping with the upper tile (lower zeile-value)
-	 * @return true if it swapped the tiles
+	 * checks if the box is in the goal state by checking the numer on each tile
+	 * @return true if in goal state
 	 */
-	public boolean swapUp() {
-		if (BlankZeile > 0) {
-			SlidingTile temp = _puzzleBox[BlankZeile - 1][BlankSpalte];
-			_puzzleBox[BlankZeile - 1][BlankSpalte] = new BlankTile();
-			_puzzleBox[BlankZeile][BlankSpalte] = temp;
-			BlankZeile -= 1;
-			return true;
-		}
-		return false;
-	}
-	
 	public boolean isGoal() {
 		for (int i = 0; i < 15; i++) {
-			if(_puzzleBox[i / 4][i % 4].getNumber() != i + 1) return false;
+			if (_puzzleBox[i / 4][i % 4].getNumber() != i + 1)
+				return false;
 		}
 		return true;
 	}
-	
-	public int[] getBlankTilePosition() {
-		int[] position = {BlankZeile,BlankSpalte};
-		return  position;
-	}
-	
-	public List<Move> getValidMoves(){
-		List<Move> moves = new ArrayList<Move>();
-		
-		if (BlankZeile > 0) moves.add(new Move(Direction.UP));
-		if (BlankZeile < _puzzleBox.length-1) moves.add(new Move(Direction.DOWN));
-		if (BlankSpalte > 0) moves.add(new Move(Direction.LEFT));
-		if (BlankSpalte < _puzzleBox[0].length-1) moves.add(new Move(Direction.RIGHT));
-		
-		return moves; 
-	}
-	
 
+	/**
+	 * gets an array with the line and column of the blank tile
+	 * @return the position of the blank tile
+	 */
+	public int[] getBlankTilePosition() {
+		int[] position = { BlankZeile, BlankSpalte };
+		return position;
+	}
+
+	/**
+	 * returns the moves, validated by the position of the blank tile
+	 * meaning no edge cases
+	 * @return  a list of possible directions
+	 */
+	public List<Move> getValidMoves() {
+		List<Move> moves = new ArrayList<Move>();
+
+		if (BlankZeile > 0)
+			moves.add(new Move(Direction.UP, this));
+		if (BlankZeile < _puzzleBox.length - 1)
+			moves.add(new Move(Direction.DOWN, this));
+		if (BlankSpalte > 0)
+			moves.add(new Move(Direction.LEFT, this));
+		if (BlankSpalte < _puzzleBox[0].length - 1)
+			moves.add(new Move(Direction.RIGHT, this));
+
+		return moves;
+	}
+
+	/**
+	 * executes a move, if it is valid.
+	 * @param move the move to be executed
+	 * @return true if valid and successful
+	 */
+	public boolean applyMove(Move move) {
+		if (isValidMove(move)) {
+			SlidingTile temp;
+			switch (move.getDirection()) {
+			case DOWN:
+				temp = _puzzleBox[BlankZeile + 1][BlankSpalte];
+				_puzzleBox[BlankZeile + 1][BlankSpalte] = new BlankTile();
+				_puzzleBox[BlankZeile][BlankSpalte] = temp;
+				BlankZeile += 1;
+				return true;
+			case LEFT:
+				temp = _puzzleBox[BlankZeile][BlankSpalte - 1];
+				_puzzleBox[BlankZeile][BlankSpalte - 1] = new BlankTile();
+				_puzzleBox[BlankZeile][BlankSpalte] = temp;
+				BlankSpalte -= 1;
+				return true;
+
+			case RIGHT:
+				temp = _puzzleBox[BlankZeile][BlankSpalte + 1];
+				_puzzleBox[BlankZeile][BlankSpalte + 1] = new BlankTile();
+				_puzzleBox[BlankZeile][BlankSpalte] = temp;
+				BlankSpalte += 1;
+				return true;
+
+			case UP:
+				temp = _puzzleBox[BlankZeile - 1][BlankSpalte];
+				_puzzleBox[BlankZeile - 1][BlankSpalte] = new BlankTile();
+				_puzzleBox[BlankZeile][BlankSpalte] = temp;
+				BlankZeile -= 1;
+				return true;
+
+			default:
+				return false;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * allows for a list of moves to be executed
+	 * @param moves the moves to be executed
+	 * @return true if all moves succeeded
+	 */
+	public boolean applyMultipleMoves(List<Move> moves) {
+		for (Move m : moves) {
+			boolean finished = applyMove(m);
+			if (!finished)
+				return false;
+		}
+		return true;
+	}
+
+	/**
+	 * checks if a move isvalid by looking for it in the getValidMoves
+	 * @param m the move to be checked for
+	 * @return true if it is a valid move
+	 */
+	public boolean isValidMove(Move m) {
+		return getValidMoves().contains(m);
+	}
 
 }

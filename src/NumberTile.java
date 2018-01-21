@@ -1,9 +1,11 @@
 /**
  * Implementation of a numbered Tile
- * @author Lasse
+ * 
+ * @author Lasse Haffke, Mai Tam Do , Joschka Eickhoff
  *
  */
 public class NumberTile implements SlidingTile {
+	// The enwritten number
 	private final int _number;
 
 	public NumberTile(int number) {
@@ -15,11 +17,20 @@ public class NumberTile implements SlidingTile {
 		return "" + _number;
 	}
 
+	/**
+	 * return if two NumberTiles are equal
+	 * 
+	 * @param obj
+	 *            the second tile
+	 * @return true if their enwritten numbers are equal
+	 */
 	public boolean equals(NumberTile obj) {
 		return _number == obj.getNumber();
 	}
+
 	/**
 	 * returns the pictured number
+	 * 
 	 * @return the number
 	 */
 	public int getNumber() {
@@ -28,14 +39,15 @@ public class NumberTile implements SlidingTile {
 
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof NumberTile) {
-			return equals((NumberTile) obj);	
-		}else return false;			
+		if (obj instanceof NumberTile) {
+			return equals((NumberTile) obj);
+		} else
+			return false;
 	}
-	
-	@Override 
+
+	@Override
 	public int hashCode() {
 		return _number;
 	}
-	
+
 }
