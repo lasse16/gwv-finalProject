@@ -70,7 +70,7 @@ public class HeuristikComparator implements Comparator<Path> {
 	private int manhattanDistance() {
 		int manhattanDistance = 0;
 		for (int i = 0; i < _feld.length; i++) {
-			for (int j = 0; i < _feld[0].length; j++) {
+			for (int j = 0; j < _feld[0].length; j++) {
 				SlidingTile current = _feld[i][j];
 				int properNumber = (i * j) + j + 1;
 				if (!(current.getNumber() == properNumber) && !current.equals(new BlankTile())) {

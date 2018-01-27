@@ -11,14 +11,20 @@ public class StartUp {
 	/**Testet die Methoden 
 	 */
 	public static void main(String[] args) {
+		
 		OverallBox box = new OverallBox();
-		System.out.println(box.hasSolution());
+		
 		System.out.print(box.toString());
-		System.out.print(box.getValidMoves());
+		System.out.println(box.getValidMoves());
 		box.applyMove(new Move(Direction.UP, box));
-		System.out.println(box.isGoal());
+		box.applyMove(new Move(Direction.UP, box));
+		box.applyMove(new Move(Direction.DOWN, box));
 		System.out.print(box.toString());
-		System.out.print(box.getValidMoves());
+		
+		Searcher test = new Searcher(box);
+		System.out.print(test.startSearch());
+		
+		System.out.print(box.toString());
 
 	}
 

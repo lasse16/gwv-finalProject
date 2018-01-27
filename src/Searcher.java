@@ -1,3 +1,5 @@
+import java.util.Collections;
+import java.util.List;
 import java.util.PriorityQueue;
 
 public class Searcher {
@@ -14,16 +16,20 @@ public class Searcher {
 		
 		while(!_frontier.isEmpty()) {
 			Path current = _frontier.poll();
+			
 			_feld.applyMove(current.getLast());
 			
 			if(_feld.isGoal()) return current;
 			else {
-				for(Move m : _feld.getValidMoves()) {
+				List<Move> candidates = _feld.getValidMoves();
+				Collections.shuffle(candidates);
+				for(Move m : candidates) {
 					Path nextMove = current.clone();
 					nextMove.add(m);
 					_frontier.add(nextMove);					
 				}
 			}
+			System.out.println(_frontier);
 		}
 		
 		return null;

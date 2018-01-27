@@ -28,18 +28,39 @@ public class OverallBox {
 		// The box [zeile][spalte]
 		_puzzleBox = new SlidingTile[4][4];
 		_puzzleBox = box;
+		int[] bPosition = findBlankPosition();
+		BlankSpalte = bPosition[0];
+		BlankZeile = bPosition[1];
 	}
 	
-	public OverallBox(String box) {
-		// The box [zeile][spalte]
+	public OverallBox(int [] box) {
 		_puzzleBox = new SlidingTile[4][4];
 		for(int i =0;i<_puzzleBox.length;i++) {
 			for(int j = 0;j < _puzzleBox[0].length;j++) {
-				_puzzleBox[i][j] = new NumberTile((i * _puzzleBox.length + j) +1);
+				_puzzleBox[j][i] = new NumberTile(box[i*j+i]);
 			}
 		}
 		_puzzleBox[_puzzleBox.length-1][_puzzleBox[0].length-1] = new BlankTile();
+		BlankSpalte = BlankZeile = 3;
 	}
+	
+	private int[] findBlankPosition() {
+		int spalte = 0;
+		int zeile = 0;
+		int[] position = new int[2];
+		for (SlidingTile[] st : _puzzleBox) {
+			position[0] = spalte;
+			for (SlidingTile s : st) {
+				position[1] = zeile;
+				if (s.equals(new BlankTile()))
+					return position;
+				zeile++;
+			}
+			spalte++;
+		}
+		return position;
+	}
+
 	
 
 	/**
