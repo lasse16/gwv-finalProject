@@ -22,7 +22,7 @@ public class StartUp {
 		System.out.print(box.toString());
 		
 		Searcher test = new Searcher(box);
-		System.out.print(test.startSearch());
+		System.out.println(test.startSearch());
 		
 		System.out.print(box.toString());
 
