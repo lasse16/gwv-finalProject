@@ -23,6 +23,24 @@ public class OverallBox {
 		_puzzleBox = new SlidingTile[4][4];
 		fillPuzzleBox();
 	}
+	
+	public OverallBox(SlidingTile[][] box) {
+		// The box [zeile][spalte]
+		_puzzleBox = new SlidingTile[4][4];
+		_puzzleBox = box;
+	}
+	
+	public OverallBox(String box) {
+		// The box [zeile][spalte]
+		_puzzleBox = new SlidingTile[4][4];
+		for(int i =0;i<_puzzleBox.length;i++) {
+			for(int j = 0;j < _puzzleBox[0].length;j++) {
+				_puzzleBox[i][j] = new NumberTile((i * _puzzleBox.length + j) +1);
+			}
+		}
+		_puzzleBox[_puzzleBox.length-1][_puzzleBox[0].length-1] = new BlankTile();
+	}
+	
 
 	/**
 	 * filling the puzzle box with the numbers from 1 to 15, and a blank tile in the
@@ -287,6 +305,10 @@ public class OverallBox {
 	 */
 	public boolean isValidMove(Move m) {
 		return getValidMoves().contains(m);
+	}
+
+	public SlidingTile[][] getFeld() {
+		return _puzzleBox;
 	}
 
 }

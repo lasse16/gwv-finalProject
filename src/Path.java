@@ -50,7 +50,7 @@ public class Path implements Iterable<Move>, Cloneable, Comparable<Path>{
 		 * 
 		 * @param pfad the path 
 		 *            
-		 * @return true wif they are equal
+		 * @return true if they are equal
 		 */
 		public boolean equals(Path pfad) {
 			for (int i = 0; i < _path.size(); ++i) {
@@ -90,12 +90,13 @@ public class Path implements Iterable<Move>, Cloneable, Comparable<Path>{
 		}
 
 		/**
-		 * Gibt den letzten Knoten des Pfads aus
+		 * Returns the last node of a path, unless it's empty then null
 		 * 
-		 * @return der Knoten
+		 * @return the node or null
 		 */
 		public Move getLast() {
-			return _path.get(0);
+			if(!_path.isEmpty()) return _path.get(0);
+			else return null;			
 		}
 		
 		@Override
@@ -104,12 +105,12 @@ public class Path implements Iterable<Move>, Cloneable, Comparable<Path>{
 		}
 
 		@Override
-		public Object clone() {
-			try {
-				return super.clone();
-			} catch (Exception e) {
-				return null;
+		public Path clone() {
+			Path copy = new Path();
+			for(Move m: _path) {
+				copy.add(m);
 			}
+			return copy;
 		}
 
 		@Override
