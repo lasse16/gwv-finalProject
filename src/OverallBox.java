@@ -199,25 +199,45 @@ public class OverallBox {
 	}
 
 	/**
-	 * FIXME über PArität lösen wie in https://de.wikipedia.org/wiki/15-Puzzle
-	 * beschrieben
-	 * 
+	 * FIXME test https://www.cs.bham.ac.uk/~mdr/teaching/modules04/java2/TilesSolvability.html
 	 * @return
 	 */
 	public boolean hasSolution() {
-		int numberMisplacedPairs = 0;
+		int parity = 0;
+		int gridWidth = _puzzleBox.length;
+		int row = 0; // the current row we are on
+		int blankRow = 0; // the row with the blank tile
+		int[] puzzle = new int[16];
 
-		List<SlidingTile> horizontalAlignment = new ArrayList<SlidingTile>();
-		for (SlidingTile[] st : _puzzleBox) {
-			for (SlidingTile s : st) {
-				horizontalAlignment.add(s);
+		for (int i = 0; i < _puzzleBox.length; i++) {
+			for (int j = 0; j < _puzzleBox[0].length; j++) {
+				puzzle[i * j + i] = _puzzleBox[i][j].getNumber();
+			}
+		}
+		for (int k = 0; k < puzzle.length; k++) {
+			if (k % gridWidth == 0) { // advance to next row
+				row++;
+			}
+			if (puzzle[k] == 0) { // the blank tile
+				blankRow = row; // save the row on which encountered
+				continue;
+			}
+			for (int j = k + 1; j < _puzzleBox.length; j++) {
+				if (puzzle[k] > puzzle[j] && puzzle[j] != 0) {
+					parity++;
+				}
 			}
 		}
 
-		// TODO hier look for unsorted pairs
-		// https://zeroturnaround.com/rebellabs/java-8-explained-applying-lambdas-to-java-collections/
-
-		return ((numberMisplacedPairs + BlankZeile) & 1) == 0;
+		if (gridWidth % 2 == 0) { // even grid
+			if (blankRow % 2 == 0) { // blank on odd row; counting from bottom
+				return parity % 2 == 0;
+			} else { // blank on even row; counting from bottom
+				return parity % 2 != 0;
+			}
+		} else { // odd grid
+			return parity % 2 == 0;
+		}
 	}
 
 	/**

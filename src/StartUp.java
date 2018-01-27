@@ -14,6 +14,7 @@ public class StartUp {
 		
 		OverallBox box = new OverallBox();
 		
+		System.out.print(box.hasSolution());
 		System.out.print(box.toString());
 		System.out.println(box.getValidMoves());
 		box.applyMove(new Move(Direction.UP, box));
