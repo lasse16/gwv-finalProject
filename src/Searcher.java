@@ -24,6 +24,8 @@ public class Searcher {
 				List<Move> candidates = _feld.getValidMoves();
 				Collections.shuffle(candidates);
 				for(Move m : candidates) {
+					//TODO CycleCheck
+					
 					Path nextMove = current.clone();
 					nextMove.add(m);
 					_frontier.add(nextMove);					
