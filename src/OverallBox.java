@@ -241,7 +241,7 @@ public class OverallBox {
 	}
 
 	/**
-	 * checks if the box is in the goal state by checking the numer on each tile
+	 * checks if the box is in the goal state by checking the number on each tile
 	 * @return true if in goal state
 	 */
 	public boolean isGoal() {
@@ -340,7 +340,7 @@ public class OverallBox {
 	}
 
 	/**
-	 * checks if a move isvalid by looking for it in the getValidMoves
+	 * checks if a move is valid by looking for it in the getValidMoves
 	 * @param m the move to be checked for
 	 * @return true if it is a valid move
 	 */

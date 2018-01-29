@@ -32,7 +32,7 @@ public class HeuristikComparator implements Comparator<Path> {
 			short max = -1;
 			for (int j = 0; j < _feld[0].length; j++) {
 				SlidingTile current = _feld[i][j];
-				if ((current.getNumber() != 0) && current.getNumber() -1 / _feld.length == i) {
+				if ((current.getNumber() != 0) && current.getNumber() -1 / _feld.length == i) { //Gehört die -1 dahin?
 					if (current.getNumber() > max) {
 						max = (short) current.getNumber();
 					} else {
@@ -73,9 +73,9 @@ public class HeuristikComparator implements Comparator<Path> {
 			for (int j = 0; j < _feld[0].length; j++) {
 				SlidingTile current = _feld[i][j];
 				int properNumber = (i * j) + j + 1;
-				if (!(current.getNumber() == properNumber) && !current.equals(new BlankTile())) {
+				if (current.getNumber() != properNumber && !current.equals(new BlankTile())) {
 					//FIXME proper manhattan distance example: 4-5 is 1 but 4 tiles away from its position
-					manhattanDistance += Math.abs(current.getNumber() - properNumber);
+					manhattanDistance += Math.abs(current.getNumber() - properNumber); //use x any coordinates to calculate distance
 				}
 			}
 		}

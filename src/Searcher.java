@@ -26,6 +26,7 @@ public class Searcher {
 			else {
 				List<Move> candidates = _feld.getValidMoves();
 				Collections.shuffle(candidates);
+				
 				for (Move m : candidates) {
 					// TODO CycleCheck
 					if (!CycleCheck(m , current.getLast())) {
