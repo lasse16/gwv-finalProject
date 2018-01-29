@@ -77,7 +77,7 @@ public class HeuristikComparator implements Comparator<Path> {
 				int properY = properNumber % _feld[0].length;
 				if (current.getNumber() != properNumber && !current.equals(new BlankTile())) {
 					//FIXME proper manhattan distance example: 4-5 is 1 but 4 tiles away from its position
-					manhattanDistance += Math.abs((i - properX) + (j - properY)); //use x any coordinates to calculate distance
+					manhattanDistance += Math.abs(i - properX) + Math.abs(j - properY); //use x any coordinates to calculate distance
 				}
 			}
 		}
