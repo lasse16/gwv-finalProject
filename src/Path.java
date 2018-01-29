@@ -40,7 +40,7 @@ public class Path implements Iterable<Move>, Cloneable, Comparable<Path>{
 		public String toString() {
 			String rep = "";
 			for (Move k : _path) {
-				rep = rep + k.toString();
+				rep = rep + k.toString() + "-";
 			}
 			return rep;
 		}

@@ -20,6 +20,7 @@ public class StartUp {
 		box.applyMove(new Move(Direction.UP, box));
 		box.applyMove(new Move(Direction.UP, box));
 		box.applyMove(new Move(Direction.DOWN, box));
+		box.applyMove(new Move(Direction.DOWN, box));
 		System.out.print(box.toString());
 		
 		Searcher test = new Searcher(box);

@@ -74,6 +74,7 @@ public class HeuristikComparator implements Comparator<Path> {
 				SlidingTile current = _feld[i][j];
 				int properNumber = (i * j) + j + 1;
 				if (!(current.getNumber() == properNumber) && !current.equals(new BlankTile())) {
+					//FIXME proper manhattan distance example: 4-5 is 1 but 4 tiles away from its position
 					manhattanDistance += Math.abs(current.getNumber() - properNumber);
 				}
 			}
