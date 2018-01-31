@@ -10,23 +10,24 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-public class SlidingTileUI extends JComponent {
+public class SlidingTileUI extends JLabel {
 	private SlidingTile _tile;
-	private JPanel _panel;
 
 	public SlidingTileUI(SlidingTile tile, Color c, JFrame main) {
 		_tile = tile;
+		this.setOpaque(true);
 		Dimension size = main.getSize();
-		_panel = new JPanel(new GridLayout(0,2));
-		_panel.setAlignmentX(JLabel.CENTER);
-		_panel.setAlignmentY(JLabel.CENTER);
-		_panel.setBorder(new LineBorder(c, 4, true));
-		_panel.setSize(new Dimension(size.height/10, size.width/10));
-		_panel.add(new JLabel(""));
-		_panel.add(new JLabel("" + _tile.getNumber()));
-		_panel.setBackground(c);
-		_panel.setVisible(true);
-		main.add(_panel);
+		this.setLayout(new GridLayout(4,2));
+		this.setAlignmentX(JLabel.CENTER);
+		this.setAlignmentY(JLabel.CENTER);
+		this.setBorder(new LineBorder(c, 4, true));
+		this.setSize(new Dimension(size.height / 4, size.height / 4));
+		this.add(new JLabel(""));
+		this.setText(""+tile.getNumber());
+		
+		this.setBackground(c);
+		this.setVisible(true);
+		main.add(this);
 		main.setVisible(true);
 	}
 

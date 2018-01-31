@@ -1,5 +1,9 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,10 +24,10 @@ public class UIManager implements Watcher{
 		_mainFrame = new JFrame("15-Puzzle");
 		_buttonFrame = new JFrame();
 		_buttonFrame.setSize(200,200);
-		_buttonFrame.setLayout(new GridLayout(2,3));
+		_buttonFrame.setLayout(new GridLayout(3,3));
 		_buttonFrame.setLocation(1100, 100);
 		_mainFrame.setSize(1000, 1000);
-		_mainFrame.setLayout(new GridLayout(5,5,3,3));
+	
 		
 
 		_box = box;
@@ -34,6 +38,7 @@ public class UIManager implements Watcher{
 		
 		_buttonFrame.add(new JLabel(""));
 		JButton upButton = new JButton("^");
+		
 		upButton.addActionListener(new ActionListener() {
 			
 			@Override
@@ -45,7 +50,7 @@ public class UIManager implements Watcher{
 		_buttonFrame.add(new JLabel(""));
 		
 		JButton leftButton = new JButton("<");
-		upButton.addActionListener(new ActionListener() {
+		leftButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -54,7 +59,7 @@ public class UIManager implements Watcher{
 		});
 		_buttonFrame.add(leftButton);
 		JButton downButton = new JButton("v");
-		upButton.addActionListener(new ActionListener() {
+		downButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -64,16 +69,26 @@ public class UIManager implements Watcher{
 		_buttonFrame.add(downButton);
 		
 		JButton rightButton = new JButton(">");
-		upButton.addActionListener(new ActionListener() {
+		rightButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				_box.applyMove(new Move(Direction.RIGHT, _box));	
+				_box = _box.applyMove(new Move(Direction.RIGHT, _box));	
 			}
 		});
 		_buttonFrame.add(rightButton);
 		
-
+		JButton shuffleButton = new JButton("shuffle");
+		shuffleButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				_box = _box.shuffle();	
+			}
+		});
+				
+		_buttonFrame.add(shuffleButton);
+		
 		
 		
 		_buttonFrame.setVisible(true);
@@ -82,9 +97,12 @@ public class UIManager implements Watcher{
 
 	@Override
 	public void update() {
-		_boxUI = new OverallBoxUI(_box, _mainFrame);
-		_mainFrame.add(_boxUI);
-		_mainFrame.setVisible(true);
+		
+		_boxUI.update();
+		System.out.print(_box.toString());
+
+		_mainFrame.revalidate();
+		_mainFrame.repaint();
 		
 	}
 }

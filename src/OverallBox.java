@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -288,44 +289,48 @@ public class OverallBox {
 	 * @param move the move to be executed
 	 * @return true if valid and successful
 	 */
-	public boolean applyMove(Move move) {
+	public OverallBox applyMove(Move move) {
 		if (isValidMove(move)) {
 			SlidingTile temp;
-			notifyWatchers();
+			
 			switch (move.getDirection()) {
 			case DOWN:
 				temp = _puzzleBox[BlankZeile + 1][BlankSpalte];
 				_puzzleBox[BlankZeile + 1][BlankSpalte] = new BlankTile();
 				_puzzleBox[BlankZeile][BlankSpalte] = temp;
 				BlankZeile += 1;
-				return true;
+				notifyWatchers();
+				return new OverallBox(_puzzleBox);
 			case LEFT:
 				temp = _puzzleBox[BlankZeile][BlankSpalte - 1];
 				_puzzleBox[BlankZeile][BlankSpalte - 1] = new BlankTile();
 				_puzzleBox[BlankZeile][BlankSpalte] = temp;
 				BlankSpalte -= 1;
-				return true;
+				notifyWatchers();
+				return new OverallBox(_puzzleBox);
 
 			case RIGHT:
 				temp = _puzzleBox[BlankZeile][BlankSpalte + 1];
 				_puzzleBox[BlankZeile][BlankSpalte + 1] = new BlankTile();
 				_puzzleBox[BlankZeile][BlankSpalte] = temp;
 				BlankSpalte += 1;
-				return true;
+				notifyWatchers();
+				return new OverallBox(_puzzleBox);
 
 			case UP:
 				temp = _puzzleBox[BlankZeile - 1][BlankSpalte];
 				_puzzleBox[BlankZeile - 1][BlankSpalte] = new BlankTile();
 				_puzzleBox[BlankZeile][BlankSpalte] = temp;
 				BlankZeile -= 1;
-				return true;
+				notifyWatchers();
+				new OverallBox(_puzzleBox);
 
 			default:
-				return false;
+				return null;
 			}
 		}
 		
-		return false;
+		return null;
 	}
 
 	private void notifyWatchers() {
@@ -342,7 +347,7 @@ public class OverallBox {
 	 */
 	public boolean applyMultipleMoves(List<Move> moves) {
 		for (Move m : moves) {
-			boolean finished = applyMove(m);
+			boolean finished = applyMove(m) != null;
 			if (!finished)
 				return false;
 		}
@@ -373,6 +378,16 @@ public class OverallBox {
 
 	public void addWatcher(Watcher watcher) {
 		_watchers.add(watcher);	
+	}
+
+	public OverallBox shuffle() {
+		for(int i= 0; i<10;i++) {
+			List<Move> moves = getValidMoves();
+			Collections.shuffle(moves);
+			applyMove(moves.get(0));
+		}
+		notifyWatchers();
+		return this;
 	}
 
 }
