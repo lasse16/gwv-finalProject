@@ -15,6 +15,8 @@ public class OverallBox {
 	private int BlankZeile;
 	private int BlankSpalte;
 
+	private List<Watcher> _watchers = new ArrayList<Watcher>();
+
 	/**
 	 * intializing the puzzle box
 	 */
@@ -289,6 +291,7 @@ public class OverallBox {
 	public boolean applyMove(Move move) {
 		if (isValidMove(move)) {
 			SlidingTile temp;
+			notifyWatchers();
 			switch (move.getDirection()) {
 			case DOWN:
 				temp = _puzzleBox[BlankZeile + 1][BlankSpalte];
@@ -321,8 +324,15 @@ public class OverallBox {
 				return false;
 			}
 		}
-
+		
 		return false;
+	}
+
+	private void notifyWatchers() {
+		for(Watcher w: _watchers) {
+			w.update();
+		}
+		
 	}
 
 	/**
@@ -350,6 +360,19 @@ public class OverallBox {
 
 	public SlidingTile[][] getFeld() {
 		return _puzzleBox;
+	}
+	
+	/**
+	 * returns the tile at the position defined by 1 integer
+	 * @param position
+	 * @return
+	 */
+	public SlidingTile getTileByPosition(int position) {
+		return _puzzleBox[position/_puzzleBox.length][position%_puzzleBox[0].length];
+	}
+
+	public void addWatcher(Watcher watcher) {
+		_watchers.add(watcher);	
 	}
 
 }

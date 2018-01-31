@@ -1,0 +1,90 @@
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+public class UIManager implements Watcher{
+	private OverallBox _box;
+	private OverallBoxUI _boxUI;
+	private JFrame _mainFrame;
+	private JFrame _buttonFrame;
+
+	public UIManager(OverallBox box) {
+		_mainFrame = new JFrame("15-Puzzle");
+		_buttonFrame = new JFrame();
+		_buttonFrame.setSize(200,200);
+		_buttonFrame.setLayout(new GridLayout(2,3));
+		_buttonFrame.setLocation(1100, 100);
+		_mainFrame.setSize(1000, 1000);
+		_mainFrame.setLayout(new GridLayout(5,5,3,3));
+		
+
+		_box = box;
+		_box.addWatcher(this);
+		_boxUI = new OverallBoxUI(box, _mainFrame);
+		
+		_mainFrame.add(_boxUI);
+		
+		_buttonFrame.add(new JLabel(""));
+		JButton upButton = new JButton("^");
+		upButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				_box.applyMove(new Move(Direction.UP, _box));	
+			}
+		});
+		_buttonFrame.add(upButton);
+		_buttonFrame.add(new JLabel(""));
+		
+		JButton leftButton = new JButton("<");
+		upButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				_box.applyMove(new Move(Direction.LEFT, _box));	
+			}
+		});
+		_buttonFrame.add(leftButton);
+		JButton downButton = new JButton("v");
+		upButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				_box.applyMove(new Move(Direction.DOWN, _box));	
+			}
+		});
+		_buttonFrame.add(downButton);
+		
+		JButton rightButton = new JButton(">");
+		upButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				_box.applyMove(new Move(Direction.RIGHT, _box));	
+			}
+		});
+		_buttonFrame.add(rightButton);
+		
+
+		
+		
+		_buttonFrame.setVisible(true);
+		_mainFrame.setVisible(true);
+	}
+
+	@Override
+	public void update() {
+		_boxUI = new OverallBoxUI(_box, _mainFrame);
+		_mainFrame.add(_boxUI);
+		_mainFrame.setVisible(true);
+		
+	}
+}

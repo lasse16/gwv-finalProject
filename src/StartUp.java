@@ -1,3 +1,9 @@
+import java.awt.Color;
+import java.awt.GridLayout;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 /**
  * 
  */
@@ -14,18 +20,20 @@ public class StartUp {
 		
 		OverallBox box = new OverallBox();
 		
-		System.out.println(box.hasSolution());
+		UIManager ui = new UIManager(box);
 		
-		System.out.println(box.getValidMoves());
-		box.applyMove(new Move(Direction.UP, box));
-		box.applyMove(new Move(Direction.UP, box));
-
-		System.out.print(box.toString());
-		
-		Searcher test = new Searcher(box);
-		System.out.println(test.startSearch());
-		
-		System.out.print(box.toString());
+//		System.out.println(box.hasSolution());
+//		
+//		System.out.println(box.getValidMoves());
+//		box.applyMove(new Move(Direction.UP, box));
+//
+//
+//		System.out.print(box.toString());
+//		
+//		Searcher test = new Searcher(box);
+//		System.out.println(test.startSearch());
+//		
+//		System.out.print(box.toString());
 
 	}
 
